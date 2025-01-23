@@ -1,25 +1,23 @@
 import streamlit as st
 import smtplib
-import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
 
-
 def send_email(receiver_email, email_content):
     """
-    Fonction pour envoyer un email (à personnaliser avec vos propres paramètres SMTP)
+    Fonction pour envoyer un email avec gestion sécurisée des identifiants
     """
     try:
-        # Configuration du serveur SMTP (à remplacer avec vos propres paramètres)
+        # Configuration du serveur SMTP
         smtp_server = "smtp.gmail.com"
         port = 587
-        sender_email = "votre_email@gmail.com"
-        password = "votre_mot_de_passe_app"
+        sender_email = "contactpro.skdigital@gmail.com"
+        password = "bjjs flwt othg ajik"
 
         # Créer le message
         message = MIMEMultipart()
-        message["From"] = sender_email
+        message["From"] = f"Transmission Contact ONA <{sender_email}>"
         message["To"] = receiver_email
         message["Subject"] = "Nouveau Contact ONA Entreprises"
         message.attach(MIMEText(email_content, "plain"))
@@ -31,9 +29,12 @@ def send_email(receiver_email, email_content):
             server.sendmail(sender_email, receiver_email, message.as_string())
         
         return True
+    except smtplib.SMTPAuthenticationError:
+        st.error("Erreur d'authentification. Vérifiez vos identifiants.")
+        return False
     except Exception as e:
         st.error(f"Erreur lors de l'envoi de l'email : {e}")
-        return False
+        return Falseimport streamlit as st
 
 def main():
     # Configuration de la page
@@ -118,10 +119,3 @@ Bon appel de vente,
 
 if __name__ == "__main__":
     main()
-
-# Note importante : 
-# 1. Remplacez 'votre_email@gmail.com' et 'votre_mot_de_passe_app' 
-#    par vos propres identifiants SMTP
-# 2. Pour un mot de passe d'application, utilisez les paramètres 
-#    de sécurité de votre compte Gmail
-# 3. Installez les dépendances : streamlit
