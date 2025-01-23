@@ -39,6 +39,8 @@ def sauvegarder_dans_sheets(donnees):
             donnees["type_contact"],              # Type contact
             donnees["activite"],                  # Activité
             donnees["nom_client"],                # Nom complet du client
+            "",
+            "",
             donnees["ref_bien"],                  # Réf bien
             donnees["source"],                    # Source
             donnees["mail_receveur"],             # Adresse mail du receveur
