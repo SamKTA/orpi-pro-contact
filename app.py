@@ -44,6 +44,7 @@ def sauvegarder_dans_sheets(donnees):
             donnees["ref_bien"],                  # Réf bien
             donnees["source"],                    # Source
             donnees["mail_receveur"],             # Adresse mail du receveur
+            "",
             donnees["commentaire"]                # Commentaire
         ]
 
