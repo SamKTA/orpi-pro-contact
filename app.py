@@ -31,20 +31,22 @@ def sauvegarder_dans_sheets(donnees):
         sheet = client.open_by_key(SHEET_ID).sheet1
         
         # Préparer les données à enregistrer
-        row_data = [
-            datetime.now().strftime("%d/%m/%Y"),  # Date
-            donnees["etape"],                     # Étape
-            donnees["telephone_client"],          # Téléphone client
-            donnees["mail_client"],               # Mail client
-            donnees["type_contact"],              # Type contact
-            donnees["activite"],                  # Activité
-            donnees["nom_client"],                # Nom complet du client
-            donnees["ref_bien"],                  # Réf bien
-            donnees["source"],                    # Source
-            donnees["mail_receveur"],             # Adresse mail du receveur
-            donnees["commentaire"]                # Commentaire
-        ]
-        
+       row_data = [
+    datetime.now().strftime("%d/%m/%Y"),  # Colonne A : Date
+    donnees["etape"],                     # Colonne B : Étape
+    donnees["telephone_client"],          # Colonne C : Téléphone client
+    donnees["mail_client"],               # Colonne D : Mail client
+    donnees["type_contact"],              # Colonne E : Type contact
+    donnees["activite"],                  # Colonne F : Activité
+    donnees["nom_client"],                # Colonne G : Nom complet du client
+    "",                                   # Colonne H : Laissée vide
+    "",                                   # Colonne I : Laissée vide
+    donnees["ref_bien"],                  # Colonne J : Réf bien
+    donnees["source"],                    # Colonne K : Source
+    donnees["mail_receveur"],             # Colonne L : Adresse mail du receveur
+    "",                                   # Colonne M : Laissée vide
+    donnees["commentaire"]                # Colonne N : Commentaire
+]
         # Ajouter une nouvelle ligne dans la feuille
         sheet.append_row(row_data)
         
