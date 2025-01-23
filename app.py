@@ -1,8 +1,10 @@
 import streamlit as st
 import smtplib
+import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
+
 
 def send_email(receiver_email, email_content):
     """
