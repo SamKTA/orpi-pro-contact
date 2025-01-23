@@ -1,8 +1,57 @@
 import streamlit as st
 import smtplib
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
+
+# ID de la feuille Google Sheets
+SHEET_ID = "1wO1wsN1Jlof5yL4AOuRqnYQu3OAcX29WWwXPZ1UPxSI"
+
+def sauvegarder_dans_sheets(donnees):
+    """
+    Sauvegarde les données du formulaire dans un Google Sheet
+    """
+    try:
+        # Configuration pour l'accès à Google Sheets
+        scope = [
+            'https://spreadsheets.google.com/feeds',
+            'https://www.googleapis.com/auth/drive'
+        ]
+        
+        # Utiliser les credentials stockés dans Streamlit Secrets
+        creds_dict = st.secrets["google_credentials"]
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+        
+        # Authentification et accès au Google Sheet
+        client = gspread.authorize(creds)
+        
+        # Ouvrir la première feuille du document
+        sheet = client.open_by_key(SHEET_ID).sheet1
+        
+        # Préparer les données à enregistrer
+        row_data = [
+            datetime.now().strftime("%d/%m/%Y"),  # Date
+            donnees["etape"],                     # Étape
+            donnees["telephone_client"],          # Téléphone client
+            donnees["mail_client"],               # Mail client
+            donnees["type_contact"],              # Type contact
+            donnees["activite"],                  # Activité
+            donnees["nom_client"],                # Nom complet du client
+            donnees["ref_bien"],                  # Réf bien
+            donnees["source"],                    # Source
+            donnees["mail_receveur"],             # Adresse mail du receveur
+            donnees["commentaire"]                # Commentaire
+        ]
+        
+        # Ajouter une nouvelle ligne dans la feuille
+        sheet.append_row(row_data)
+        
+        return True
+    except Exception as e:
+        st.error(f"Erreur lors de la sauvegarde dans Google Sheets : {e}")
+        return False
 
 def send_email(receiver_email, email_content):
     """
@@ -34,7 +83,7 @@ def send_email(receiver_email, email_content):
         return False
     except Exception as e:
         st.error(f"Erreur lors de l'envoi de l'email : {e}")
-        return Falseimport
+        return False
 
 def main():
     # Configuration de la page
@@ -92,6 +141,20 @@ def main():
             if not telephone_client or not nom_client or not mail_receveur:
                 st.error("Merci de remplir tous les champs obligatoires (*)")
             else:
+                # Préparer un dictionnaire avec les données
+                donnees = {
+                    "etape": etape,
+                    "telephone_client": telephone_client,
+                    "mail_client": mail_client,
+                    "type_contact": type_contact,
+                    "activite": activite,
+                    "nom_client": nom_client,
+                    "ref_bien": ref_bien,
+                    "source": source,
+                    "mail_receveur": mail_receveur,
+                    "commentaire": commentaire
+                }
+                
                 # Préparer le contenu de l'email
                 email_content = f"""Bonjour jeune frérot, 
 
@@ -110,12 +173,15 @@ Commentaire de Léna : {commentaire}
 
 Bon appel de vente,
 """
-                # Envoi de l'email
-                if send_email(mail_receveur, email_content):
-                    st.success("C'est bien Léna, tu es bien dressée 👍")
-                    # Vous pouvez ajouter ici une logique supplémentaire si nécessaire
+                # Sauvegarder dans Google Sheets
+                if sauvegarder_dans_sheets(donnees):
+                    # Envoi de l'email
+                    if send_email(mail_receveur, email_content):
+                        st.success("C'est bien Léna, tu es bien dressée 👍")
+                    else:
+                        st.error("Problème lors de l'envoi de l'email")
                 else:
-                    st.error("Problème lors de l'envoi de l'email")
+                    st.error("Problème lors de la sauvegarde des données")
 
 if __name__ == "__main__":
     main()
