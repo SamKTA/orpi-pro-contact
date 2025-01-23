@@ -34,7 +34,7 @@ def send_email(receiver_email, email_content):
         return False
     except Exception as e:
         st.error(f"Erreur lors de l'envoi de l'email : {e}")
-        return Falseimport streamlit as st
+        return Falseimport
 
 def main():
     # Configuration de la page
