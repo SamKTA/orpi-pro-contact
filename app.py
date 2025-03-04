@@ -62,7 +62,7 @@ def send_email(receiver_email, email_content):
         smtp_server = "smtp.gmail.com"
         port = 587
         sender_email = "contactpro.skdigital@gmail.com"
-        password = "bjjs flwt othg ajik"
+        password = "yzqy wmpw oulb qqvo"
 
         # Créer le message
         message = MIMEMultipart()
