@@ -156,7 +156,7 @@ def main():
                 }
                 
                 # Préparer le contenu de l'email
-                email_content = f"""Bonjour jeune frérot, 
+                email_content = f"""Bonjour, 
 
 Nouveau contact {type_contact}, sa demande a été faite le {date_aujourd_hui}.
 
