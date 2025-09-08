@@ -177,7 +177,7 @@ Bon appel de vente,
                 if sauvegarder_dans_sheets(donnees):
                     # Envoi de l'email
                     if send_email(mail_receveur, email_content):
-                        st.success("C'est bien Léna, tu es bien dressée 👍")
+                        st.success("Validé")
                     else:
                         st.error("Problème lors de l'envoi de l'email")
                 else:
