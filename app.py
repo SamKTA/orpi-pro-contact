@@ -169,7 +169,7 @@ Voici ses coordonnées :
 Ce contact provient de {source}. 
 Référence : {ref_bien}
 
-Commentaire de Léna : {commentaire}
+Commentaire : {commentaire}
 
 Bon appel de vente,
 """
